@@ -1,0 +1,38 @@
+version: '2'
+services:
+  web:
+    image: 'nginx:1.12'
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./data/nginx/html:/usr/share/nginx/html
+      - ./data/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - phpfpm
+    links:
+      - phpfpm:discuz_phpfpm_1
+
+  phpfpm:
+    build:
+      context: ./fpm
+    ports:
+      - '9000'
+    volumes:
+      - ./data/nginx/html:/usr/share/nginx/html:rw
+    depends_on:
+      - db
+    links:
+      - db:discuz_db_1
+
+  db:
+    image: 'mariadb:5.5'
+    ports:
+      - '3306'
+    volumes:
+      - /data/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=forum
+      - MYSQL_USER=forumuser
+      - MYSQL_PASSWORD=123456
