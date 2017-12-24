@@ -40,3 +40,4 @@ chmod o+w ./uc_server/data/backup
 chmod o+w ./uc_server/data/logs
 chmod o+w ./uc_server/data/tmp
 chmod o+w ./uc_server/data/view
+chmod o+w ./config/config_global.php
